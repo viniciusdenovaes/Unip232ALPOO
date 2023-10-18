@@ -2,11 +2,15 @@ package view;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -15,6 +19,9 @@ import entidade.Pato;
 public class ViewJanela extends JFrame implements View{
 	
 	JTabbedPane tabedPane = new JTabbedPane();
+	
+	String nomeAbaBusca = "Busca";
+	BuscaPanel buscaPanel = new BuscaPanel();
 	
 	 JPanel createDummyPanel(String mensagem) {
 		JPanel panel = new JPanel(false);
@@ -30,7 +37,8 @@ public class ViewJanela extends JFrame implements View{
 	
 	public void init() {
 		
-		createDummyPanel("Dummy");
+		tabedPane.addTab(nomeAbaBusca, buscaPanel);
+		
 		
 		tabedPane.addTab("dummy 1", createDummyPanel("Dummy 1"));
 		tabedPane.addTab("dummy 2", createDummyPanel("Dummy 2"));
@@ -38,29 +46,29 @@ public class ViewJanela extends JFrame implements View{
 		
 		add(tabedPane);
 		
+		addWindowListener(new AcaoJanela());
 		
 		
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		pack();
 	}
 
 	@Override
 	public void mostrarPatos(List<Pato> patos) {
-		// TODO Auto-generated method stub
+		buscaPanel.mostrarResultado(patos);
 		
 	}
 
 	@Override
 	public void addBuscaPatoByNameListener(ActionListener al) {
-		// TODO Auto-generated method stub
+		buscaPanel.addBuscaListener(al);
 		
 	}
 
 	@Override
 	public String pegaNomePatoBuscaByNome() {
-		// TODO Auto-generated method stub
-		return null;
+		return buscaPanel.pegaNomeBusca();
 	}
 
 	@Override
@@ -103,6 +111,56 @@ public class ViewJanela extends JFrame implements View{
 	public String pegaIdAddPato() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	class AcaoJanela implements WindowListener{
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			int o = JOptionPane.showConfirmDialog(null,
+		             "Confirmar", "Quer realmente fechar?", JOptionPane.YES_NO_OPTION);			
+			if(o==0) {
+				System.exit(0);
+			}
+			
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 	
 	public static void main(String[] args) {
